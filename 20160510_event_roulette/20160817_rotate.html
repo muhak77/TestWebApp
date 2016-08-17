@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko" lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>모던하우스</title>
+<link rel="stylesheet" type="text/css" href="http://www.modernhouse.co.kr/common/css/layout.css" media="all" />
+<link rel="stylesheet" type="text/css" href="http://www.modernhouse.co.kr/common/css/common.css" media="all" />
+<meta name="title" content="모던하우스 인터넷쇼핑몰" />
+<meta name="keywords" content="모던하우스" />
+<meta name="description" content="" />
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script> 
+<script type="text/javascript" src="jQueryRotate.js"></script>
+</head>
+<body>
+<div id="wrap">
+	<div id="container">
+		<div class="main_wrap">
+			<!-- 여기부터 입력 -->
+				<style type="text/css">
+					.event_20th {width:930px;padding:88px 0px 0px 0px; position:relative; background:url('images/bg_reulette_sky.jpg') no-repeat 0 0;}
+					.event_20th h3{display:block; text-align:center;margin-bottom:52px;}
+					.event_20th .roulette_wrap{width:670px;height:683px;margin-left:138px;overflow:hidden;position:relative;background:url('images/bg_reulette.png') no-repeat 0 0;}
+					.event_20th .roulette_wrap .roulette {padding:86px 0px 0px 69px;}
+					.event_20th .roulette_wrap .pin{width:69px;height:113px;overflow:hidden;position:absolute; top:29px; left:290px;z-index:999; background:url('images/arrow_pin.png') no-repeat 0 0;}
+					.event_20th .roulette_wrap .butten_start {width:155px; height:155px;overflow:hidden; position:absolute; top:268px; left:252px; z-index:999; text-indent:-9999em; display:block; background:url('images/btn_go_roulette.png') no-repeat 0 0;}
+					.event_20th .event_notice {margin-top:49px;}
+					.event_20th .bg_sh{width:100%;position:absolute; top:0px; left:0px;right:0px; bottom:0px;background:url('images/bg_sh.png') repeat-y 0 0;}
+					.event_20th .winner_pop {position:absolute; top:570px; left:50%; width:300px; height:208px; overflow:hidden;margin-left:-150px; z-index:1000;}
+					.event_20th .winner_pop .winner_wr{position:relative;width:300px;height:208px;}
+					.event_20th .winner_pop .winner_wr .close_btn {position:absolute; top:0px; right:0px; display:block; width:35px;height:35px;text-indent:-9999em;}
+				</style>
+				<div class="event_20th">
+					<h3><img src="images/title_roulette.png" alt="20th 주년 Anniversary  2016.05.14 토 ~ 2016.05.23 월요일 당첨 선물찰고는 5월 25일 이후에 순차적으로 출고 될 예정입니다." /></h3>
+					<div class="roulette_wrap">
+						<div class="pin"></div>
+						<a id="start_btn" class="butten_start" >START 룰렛돌리기</a>
+						<div class="roulette"><img id="image" src="images/img_roulette.png" alt="룰렛" /></div>
+					</div>
+					<p class="event_notice"><img src="images/event_notice.jpg"  alt="* 이벤트 안내사항 1. 당첨된 사은품은 가입하신 고객님의 주소와 연락처로 배송됩니다. 2. 당첨된 쿠폰은 모던하우스 인터넷쇼핑몰에서만 사용하실 수 있습니다.   (오프라인 매장 사용 불가) 3. 본 이벤트는 아이디당 1일 1회 참여가능합니다" /></p>
+				</div>
+			<!-- //여기까지 입력 -->
+		</div>
+	</div>
+	<!-- //container -->
+</div>
+<div id="result_id"></div>
+<div id="result_id2"></div>
+<div id="result_id3"></div>
+<div id="result_id4">
+<p>당첨숫자 
+<span class="rs1">X</span>/
+<span class="rs2">X</span>/
+<span class="rs3">X</span>
+</p>
+</div>
+<script>
+window.onload = function(){
+     
+    var pArr = ["0","1","2","3","4","5","6","7","8","9"];
+ 
+    $('#start_btn').click(function(){
+        rotation();
+    });
+ 
+    function rotation(){
+        $("#image").rotate({
+          angle:0, 
+          animateTo:360 * 5 + randomize(0, 360),
+          center: ["50%", "50%"],
+          easing: $.easing.easeInOutElastic,
+          callback: function(){ 
+                        var n = $(this).getRotateAngle();
+                        endAnimate(n);
+                    },
+          duration:5000
+       });
+    }
+var rs;
+var cnt=1;
+    function endAnimate($n){
+        var n = $n;
+        $('#result_id').html("<p>움직인각도:" + n + "</p>");
+        var real_angle = n%360 +18;
+        var part = Math.floor(real_angle/36);
+
+console.log(real_angle);
+        $('#result_id2').html("<p>상품범위:" + part + "</p>");
+ 
+        if(part < 1){
+            $('#result_id3').html("<p>당첨내역:" + pArr[0] + "</p>");
+setRs(pArr[0])
+            return;
+        }
+ 
+        if(part >= 10){
+            $('#result_id3').html("<p>당첨내역:" + pArr[pArr.length-1] + "</p>");
+setRs(pArr[pArr.length-1]) 
+            return;
+        }
+ 
+        $('#result_id3').html("<p>당첨내역:" + pArr[part] + "</p>");
+setRs(pArr[part])
+        //alert("당첨번호는 " + pArr[part]);    
+        
+    }
+function setRs (part) {
+if (cnt==1) {
+$(".rs1").html(pArr[part] );
+}else if (cnt==2) {
+$(".rs2").html(pArr[part]);
+}else if (cnt==3) {
+$(".rs3").html(pArr[part]);
+}
+cnt++;
+}
+   
+
+    function randomize($min, $max){
+        return Math.floor(Math.random() * ($max - $min + 1)) + $min;
+    }
+};
+</script>
+<!-- //wrap -->
+</body>
+</html>
